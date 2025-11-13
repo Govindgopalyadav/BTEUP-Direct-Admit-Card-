@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTEUP Direct Admit Card</title>
+    <!-- Use a standard, readable mobile-friendly font stack -->
+    <style>
+        :root {
+            --primary-color: #FF671F; /* Convert 1: iOS Blue */
+            --primary-color-dark: #FF671F;
+            --secondary-color: #046A38; /* Convert 2: iOS Orange */
+            --secondary-color-dark: #046A38;
+            --disabled-color: #ccc;
+            --error-color: #ff3b30; /* iOS Red */
+            --text-color: #333;
+            --spacing-unit: 16px;
+        }
+
+        /* 1. Overall Layout & Mobile Focus */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Start content from the top on mobile */
+            min-height: 100dvh;
+            background-color: #f0f0f5; /* Light background */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 768px; /* Target maximum mobile/tablet width */
+            padding: var(--spacing-unit);
+            box-sizing: border-box;
+            border-radius: 12px;
+            margin-top: var(--spacing-unit);
+        }
+
+        /* 2. Form Styling */
+        .form-group {
+            margin-bottom: var(--spacing-unit);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* 3. Input Field (Large, Tappable Target) */
+        #trackingId {
+            width: 100%;
+            height: 48px; /* Minimum required tappable height */
+            padding: 0 12px;
+            font-size: 1.1rem;
+            line-height: 48px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        #trackingId:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+        }
+
+        /* 4. Feedback/Error Styling */
+        .feedback {
+            min-height: 1.5rem; /* Reserve space to prevent layout shift */
+            margin-top: -8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--error-color);
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feedback.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* 5. Action Button Styling (NON-STICKY) */
+        .conversion-btn {
+            width: 100%;
+            min-height: 56px; /* Larger button for mobile tapping */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: var(--spacing-unit);
+            display: block; /* Ensure buttons stack vertically */
+        }
+        
+        /* Convert 1 (Primary) Styling */
+        #convertBtn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #convertBtn:not([disabled]):active {
+            background-color: var(--primary-color-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Convert 2 (Secondary) Styling */
+        #convertBtn2 {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        #convertBtn2:not([disabled]):active {
+            background-color: var(--secondary-color-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Disabled State (Applies to both) */
+        .conversion-btn[disabled] {
+            background-color: var(--disabled-color) !important;
+            color: #666;
+            cursor: not-allowed;
+            opacity: 0.6; /* Visually muted */
+            box-shadow: none;
+        }
+
+        /* --- Image Styling for Responsive Fit --- */
+        #displayImage {
+            width: 100%; /* Perfect fit: makes the image match the container width */
+            height: auto; /* Maintains aspect ratio */
+            border-radius: 8px;
+            display: block;
+        }
+
+        /* --- Footer/Stats Styling --- */
+        .footer-stats {
+            margin-top: 24px;
+            border-top: 1px solid #ddd;
+            padding-top: 12px;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: center;
+        }
+        .footer-stats p {
+            margin: 4px 0;
+        }
+
+
+        /*
+        ================================================================
+        START: BLOGGER WIDGET DISABLER (The "Disabling Code")
+        ================================================================
+        
+        INSTRUCTIONS:
+        ... (omitted for brevity, content is unchanged) ...
+        
+        */
+        
+        .sidebar, .post-footer, .blog-pager, .comments, .post-share-buttons-container, .widget, .footer-outer, #navbar-iframe {
+            display: none !important;
+            height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /*
+        ================================================================
+        END: BLOGGER WIDGET DISABLER
+        ================================================================
+        */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>BTEUP Direct Admit Card</h1>
+
+        <div class="form-group">
+            <label for="trackingId">Enter Your Enrollment No</label>
+            <input type="text" id="trackingId" placeholder="Enter Enrollment ID Here" maxlength="25" autofocus>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <!-- Button 1 element -->
+        <button id="convertBtn" class="conversion-btn" disabled>Get Admit Card</button>
+        
+        <!-- Button 2 element -->
+        <button id="convertBtn2" class="conversion-btn" disabled>Get Verification Card</button>
+        
+        <!-- The image element is below the buttons and fits perfectly -->
+        <img id="displayImage" src="https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/06/28/Pictures/metropolitan-minister-narendra-birthday-addresses-during-celebrations_e332f872-b8ed-11ea-b212-8f8a0313eef6.jpg" alt="Modi Ji image for fun. contact - nvjlczyt@telegmail.com for removal"</img>
+               
+
+        <!-- New section for Last Update and Visitor Count -->
+        <div class="footer-stats">
+            <p>Last Updated: <span id="lastUpdateDisplay">Loading...</span></p>
+            <p>Total Visitors: <span id="visitorCountDisplay">--</span></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // --- Global Firebase Variables (Mandatory) ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const authToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db = null;
+        let auth = null;
+        
+        // --- App Variables ---
+        const BASE_URL = "https://bteup.ac.in/ESeva/Student/AdmitCard.aspx?EnrollNumber=";
+        const BASE_URL_2 = "https://bteup.ac.in/ESeva/Student/VerificationCard.aspx?EnrollNumber="; 
+
+        const inputField = document.getElementById('trackingId');
+        const convertBtn = document.getElementById('convertBtn');
+        const convertBtn2 = document.getElementById('convertBtn2');
+        const feedbackElement = document.getElementById('feedback');
+        const visitorCountDisplay = document.getElementById('visitorCountDisplay');
+        const lastUpdateDisplay = document.getElementById('lastUpdateDisplay');
+
+        // --- Core Functions ---
+        
+        /**
+         * Initializes Firebase and handles authentication.
+         */
+        async function initializeFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // Sign in using custom token or anonymously if token is missing
+                if (authToken) {
+                    await signInWithCustomToken(auth, authToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                console.log("Firebase initialized and user authenticated.");
+                setupVisitorCounter();
+
+            } catch (error) {
+                console.error("Firebase Initialization or Auth Failed:", error);
+                visitorCountDisplay.textContent = "1000+";
+            }
+        }
+
+        /**
+         * Sets up the visitor counter logic using Firestore.
+         */
+        function setupVisitorCounter() {
+            const visitorDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'metrics', 'visitor_count');
+            const hasVisited = sessionStorage.getItem('hasVisited');
+
+            // 1. Setup Real-Time Listener for Count Display
+            onSnapshot(visitorDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const count = docSnap.data().count || 0;
+                    visitorCountDisplay.textContent = count.toLocaleString();
+                } else {
+                    // Initialize document if it doesn't exist
+                    setDoc(visitorDocRef, { count: 0 }, { merge: true });
+                    visitorCountDisplay.textContent = '0';
+                }
+            }, (error) => {
+                console.error("Error fetching visitor count:", Error);
+                visitorCountDisplay.textContent = "Error";
+            });
+
+            // 2. Increment Counter Once per Session
+            if (!hasVisited) {
+                // Safely increment the count in the database
+                getDoc(visitorDocRef).then((docSnap) => {
+                    if (docSnap.exists()) {
+                        // Increment using the increment field value
+                        setDoc(visitorDocRef, { count: increment(1) }, { merge: true });
+                    } else {
+                        // Create the document if it doesn't exist
+                        setDoc(visitorDocRef, { count: 1 }, { merge: true });
+                    }
+                });
+                sessionStorage.setItem('hasVisited', 'true');
+            }
+        }
+
+        /**
+         * Displays the last update time (the time the script was loaded).
+         */
+        function displayLastUpdate() {
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            lastUpdateDisplay.textContent = `${formattedDate} at ${formattedTime}`;
+        }
+        
+        // --- Existing Validation Logic ---
+        
+        function validateInput(value) {
+            const minLength = 10;
+            const maxLength = 20;
+            
+            if (value.length < minLength) {
+                return `ID must be at least ${minLength} characters long.`;
+            }
+
+            if (value.length > maxLength) {
+                 return `ID cannot exceed ${maxLength} characters.`;
+            }
+            
+            const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+            if (!alphanumericRegex.test(value)) {
+                return "Only letters (A-Z, a-z) and numbers (0-9) are allowed.";
+            }
+
+            return null; // Valid
+        }
+
+        function updateUI() {
+            const inputValue = inputField.value.trim();
+            const error = validateInput(inputValue);
+            const isValid = !error;
+
+            convertBtn.disabled = !isValid;
+            convertBtn2.disabled = !isValid; 
+
+            if (error) {
+                feedbackElement.textContent = error;
+                feedbackElement.classList.add('visible');
+            } else {
+                feedbackElement.textContent = '';
+                feedbackElement.classList.remove('visible');
+            }
+        }
+        
+        // --- Event Listeners ---
+
+        inputField.addEventListener('input', updateUI);
+
+        convertBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const inputValue = inputField.value.trim();
+            if (validateInput(inputValue)) { return; }
+            const encodedValue = encodeURIComponent(inputValue);
+            window.open(BASE_URL + encodedValue, '_blank');
+        });
+
+        convertBtn2.addEventListener('click', (event) => {
+            event.preventDefault();
+            const inputValue = inputField.value.trim();
+            if (validateInput(inputValue)) { return; }
+            const encodedValue = encodeURIComponent(inputValue);
+            window.open(BASE_URL_2 + encodedValue, '_blank');
+        });
+
+        // --- Initialization ---
+        window.onload = () => {
+            inputField.focus(); 
+            updateUI(); 
+            displayLastUpdate(); // Display current time as "last update"
+            initializeFirebase(); // Start Firebase and the counter
+        };
+
+        updateUI();
+
+    </script>
+
+</body>
+</html>
+
+
