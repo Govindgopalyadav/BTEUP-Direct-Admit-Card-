@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTEUP Direct Admit Card Link</title>
+    <!-- Use a standard, readable mobile-friendly font stack -->
+    <style>
+        :root {
+            --primary-color: #FF671F; /* Convert 1: iOS Blue */
+            --primary-color-dark: #FF671F;
+            --secondary-color: #046A38; /* Convert 2: iOS Orange */
+            --secondary-color-dark: #046A38;
+            --disabled-color: #ccc;
+            --error-color: #ff3b30; /* iOS Red */
+            --text-color: #333;
+            --spacing-unit: 16px;
+        }
+
+        /* 1. Overall Layout & Mobile Focus */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Start content from the top on mobile */
+            min-height: 100dvh;
+            background-color: #f0f0f5; /* Light background */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 768px; /* Target maximum mobile/tablet width */
+            padding: var(--spacing-unit);
+            box-sizing: border-box;
+            border-radius: 12px;
+            margin-top: var(--spacing-unit);
+        }
+
+        /* 2. Form Styling */
+        .form-group {
+            margin-bottom: var(--spacing-unit);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* 3. Input Field (Large, Tappable Target) */
+        #trackingId {
+            width: 100%;
+            height: 48px; /* Minimum required tappable height */
+            padding: 0 12px;
+            font-size: 1.1rem;
+            line-height: 48px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        #trackingId:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+        }
+
+        /* 4. Feedback/Error Styling */
+        .feedback {
+            min-height: 1.5rem; /* Reserve space to prevent layout shift */
+            margin-top: -8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--error-color);
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feedback.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* 5. Action Button Styling (NON-STICKY) */
+        .conversion-btn {
+            width: 100%;
+            min-height: 56px; /* Larger button for mobile tapping */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba, 0, 0, 0, 0.1;
+            margin-bottom: var(--spacing-unit);
+            display: block; /* Ensure buttons stack vertically */
+        }
+        
+        /* Convert 1 (Primary) Styling */
+        #convertBtn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #convertBtn:not([disabled]):active {
+            background-color: var(--primary-color-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Convert 2 (Secondary) Styling */
+        #convertBtn2 {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        #convertBtn2:not([disabled]):active {
+            background-color: var(--secondary-color-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Disabled State (Applies to both) */
+        .conversion-btn[disabled] {
+            background-color: var(--disabled-color) !important;
+            color: #666;
+            cursor: not-allowed;
+            opacity: 0.6; /* Visually muted */
+            box-shadow: none;
+        }
+
+        /* --- Image Styling for Responsive Fit --- */
+        #displayImage {
+            width: 100%; /* Perfect fit: makes the image match the container width */
+            height: auto; /* Maintains aspect ratio */
+            border-radius: 8px;
+            display: block;
+        }     
+        
+   </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>BTEUP Direct Admit Card Link</h1>
+
+        <div class="form-group">
+            <label for="trackingId">Enter Your Enrollment ID</label>
+            <input type="text" id="trackingId" placeholder="Enrollment ID Here" maxlength="20" autofocus>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <!-- Button 1 element -->
+        <button id="convertBtn" class="conversion-btn" disabled>Get Admit Card </button>
+        
+        <!-- Button 2 element -->
+        <button id="convertBtn2" class="conversion-btn" disabled>Get Verification Card</button>
+        
+        <!-- The image element is below the buttons and fits perfectly -->
+        <!img id="displayImage" src="https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/06/28/Pictures/metropolitan-minister-narendra-birthday-addresses-during-celebrations_e332f872-b8ed-11ea-b212-8f8a0313eef6.jpg" alt="Modi Ji image for fun. contact - nvjlczyt@telegmail.com for removal"</!img>
+               
+    </div>
+    
+
+    <script>
+        // 3. Technical & Functionality Requirements
+        const BASE_URL = "https://bteup.ac.in/ESeva/Student/AdmitCard.aspx?EnrollNumber=";
+        // New URL for the second button
+        const BASE_URL_2 = "https://bteup.ac.in/ESeva/Student/VerificationCard.aspx?EnrollNumber="; 
+
+        const inputField = document.getElementById('trackingId');
+        const convertBtn = document.getElementById('convertBtn');
+        const convertBtn2 = document.getElementById('convertBtn2'); // Reference for the new button
+        const feedbackElement = document.getElementById('feedback');
+        
+        // --- Validation Logic ---
+        
+        /**
+         * Checks the input against all validation rules.
+         * @param {string} value - The input value.
+         * @returns {string|null} - An error message if invalid, otherwise null.
+         */
+        function validateInput(value) {
+            const minLength = 10;
+            const maxLength = 25;
+            
+            // 4. Validation: Length Check
+            if (value.length < minLength) {
+                return `ID must be at least ${minLength} characters long.`;
+            }
+
+            // Length Check (Max 25 is handled by HTML maxlength, but we check here too for comprehensive feedback)
+            if (value.length > maxLength) {
+                 return `ID cannot exceed ${maxLength} characters.`;
+            }
+            
+            // 4. Validation: Input Type (Alphanumeric only)
+            const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+            if (!alphanumericRegex.test(value)) {
+                return "Only letters (A-Z) and numbers (0-9) are allowed.";
+            }
+
+            return null; // Valid
+        }
+
+        /**
+         * Updates the UI (button state and feedback message) based on validation.
+         */
+        function updateUI() {
+            const inputValue = inputField.value.trim();
+            const error = validateInput(inputValue);
+            const isValid = !error;
+
+            // Update both buttons' disabled state
+            convertBtn.disabled = !isValid;
+            convertBtn2.disabled = !isValid; 
+
+            if (error) {
+                // Input is INVALID
+                feedbackElement.textContent = error;
+                feedbackElement.classList.add('visible');
+            } else {
+                // Input is VALID
+                feedbackElement.textContent = '';
+                feedbackElement.classList.remove('visible');
+            }
+        }
+        
+        // --- Event Listeners ---
+
+        // Attach event listener to handle validation on every keystroke
+        inputField.addEventListener('input', updateUI);
+
+        // Click handler for Convert 1 (uses BASE_URL)
+        convertBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            
+            const inputValue = inputField.value.trim();
+            if (validateInput(inputValue)) { return; }
+
+            const encodedValue = encodeURIComponent(inputValue);
+            const finalLink = BASE_URL + encodedValue;
+            
+            window.open(finalLink, '_blank');
+        });
+
+        // Click handler for Convert 2 (uses BASE_URL_2)
+        convertBtn2.addEventListener('click', (event) => {
+            event.preventDefault();
+            
+            const inputValue = inputField.value.trim();
+            if (validateInput(inputValue)) { return; }
+
+            const encodedValue = encodeURIComponent(inputValue);
+            const finalLink = BASE_URL_2 + encodedValue;
+            
+            window.open(finalLink, '_blank');
+        });
+
+        // --- Initialization ---
+        window.onload = () => {
+            // 4. Focus: On load, the input field should automatically receive focus
+            inputField.focus(); 
+            // Initialize UI state
+            updateUI(); 
+        };
+
+        // Initialize UI on script load in case input has preset values
+        updateUI();
+
+    </script>
+
+</body>
+</html>
+
+
